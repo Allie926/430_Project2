@@ -14,18 +14,22 @@ const handleDomo = (e) => {
 	return false;
 };
 
-const MoneyForm = (props) => {
+/*const MoneyForm = (props) => {
   return(
   <form id="moneyForm">
     <p>Current Savings: </p>
     <input className="startChallenge" type="submit" value="Begin a new Typing Challenge"/>
   </form>
   );
-};
-/*
+};*/
+
 const DomoForm = (props) => {
 	return(
-	<form id="domoForm"
+      <form id="moneyForm">
+        <p>Current Savings: </p>
+        <input className="startChallenge" type="submit" value="Begin a new Typing Challenge" />
+      </form>
+	/*<form id="domoForm"
 		onSubmit={handleDomo}
 		name="domoForm"
 		action="/maker"
@@ -38,9 +42,9 @@ const DomoForm = (props) => {
 	  <input id="domoAge" type="text" name="age" placeholder="Domo Age"/>
 	  <input type="hidden" name="_csrf" value={props.csrf}/>
 	  <input className="makeDomoSubmit" type="submit" value="Make Domo"/>
-	</form>
+	</form>*/
 	);
-};*/
+};
 
 const DomoList = function(props) {
 	if(props.domos.length === 0){
