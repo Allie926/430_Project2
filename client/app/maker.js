@@ -1,3 +1,7 @@
+const list = ['GOD', 'DOG', 'BOTTLE'];
+let letters = 0;
+let seconds = 60;
+
 const handleDomo = (e) => {
 	e.preventDefault(0);
 	
@@ -14,15 +18,6 @@ const handleDomo = (e) => {
 	return false;
 };
 
-/*const MoneyForm = (props) => {
-  return(
-  <form id="moneyForm">
-    <p>Current Savings: </p>
-    <input className="startChallenge" type="submit" value="Begin a new Typing Challenge"/>
-  </form>
-  );
-};*/
-
 const DomoForm = (props) => {
 	return(
       <form id="moneyForm"
@@ -32,6 +27,7 @@ const DomoForm = (props) => {
         <p>Current Savings: </p>
         <input className="startChallenge" type="submit" value="Begin a new Typing Challenge" />
       </form>
+      
 	/*<form id="domoForm"
 		onSubmit={handleDomo}
 		name="domoForm"
@@ -49,8 +45,28 @@ const DomoForm = (props) => {
 	);
 };
 
+function countdown() {
+ 		var timer = setInterval(function(){
+ 			//button.disabled = true;
+    		seconds--;
+    		temp.innerHTML = seconds;
+    		if (seconds === 0) {
+    			alert("Game over! Your score is " + letters);
+    			//scoreDiv.innerHTML = "0";
+    			words.innerHTML = "";
+    			button.disabled = false;
+    			clearInterval(timer);
+    			seconds = 60;
+    			timerDiv.innerHTML = "60";
+    			button.disabled = false;	
+    		}
+ 		}, 1000);
+  	}
+
 const DomoList = function(props) {
-	if(props.domos.length === 0){
+  
+  
+  if(props.domos.length === 0){
 		return(
 			<div className="domoList">
 				<h3 className="emptyDomo">No Domos yet</h3>
