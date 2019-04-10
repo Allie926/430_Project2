@@ -1,6 +1,11 @@
 const list = ['GOD', 'DOG', 'BOTTLE'];
 let letters = 0;
-let seconds = 60;
+let typed;
+let cashMoneys;
+let spans;
+let words;
+let money;
+
 
 const handleDomo = (e) => {
 	e.preventDefault(0);
@@ -18,54 +23,80 @@ const handleDomo = (e) => {
 	return false;
 };
 
+function random() {
+    words.innerHTML = "";
+    let random = Math.floor(Math.random() * (3));
+    let wordArray = list[random].split("");
+    for (let i = 0; i < wordArray.length; i++) { //building the words with spans around the letters
+        let span = document.createElement("span");
+        span.classList.add("span");
+        span.innerHTML = wordArray[i];
+        words.appendChild(span);
+    }
+    spans = document.querySelectorAll(".span");
+}
+
+function typing(e) {
+	if(!spans){
+		random();
+		return;
+	}
+  	typed = String.fromCharCode(e.which);
+  	for (let i = 0; i < spans.length; i++) {
+		if (spans[i].innerHTML === typed) { // if typed letter is the one from the word
+			if (spans[i].classList.contains("bg")) { // if it already has class with the bacground color then check the next one
+				continue;
+  			}
+			else if (spans[i].classList.contains("bg") === false && spans[i-1] === undefined || spans[i-1].classList.contains("bg") !== false ) { 
+  				spans[i].classList.add("bg");
+  				break;
+  			}
+  		}
+  	}
+  	let checker = 0;
+  	for (let j = 0; j < spans.length; j++) { //checking if all the letters are typed
+  		if (spans[j].className === "span bg") {
+  			checker++;
+  		}
+  		if (checker === spans.length) { // if so, animate the words with animate.css class
+  			words.classList.add("animated");
+  			words.classList.add("fadeOut");
+  			cashMoneys++; // increment the cashMoneys
+  			money.innerHTML = cashMoneys; //add cashMoneys to the cashMoneys div
+  			document.removeEventListener("keydown", typing, false);
+  			setTimeout(function(){
+  				words.className = "words"; // restart the classes
+  				random(); // give another word
+  				document.addEventListener("keydown", typing, false);
+  			}, 400);
+  		}
+
+  	}
+}
+
 const DomoForm = (props) => {
+	
 	return(
-      <form id="moneyForm"
-        name="moneyForm"
-        className="moneyForm"
-      >
-        <p>Current Savings: </p>
-        <input className="startChallenge" type="submit" value="Begin a new Typing Challenge" />
-      </form>
-      
-	/*<form id="domoForm"
-		onSubmit={handleDomo}
-		name="domoForm"
-		action="/maker"
-		method="POST"
-		className="domoForm"
-	>
-	  <label htmlFor="name">Name: </label>
-	  <input id="domoName" type="text" name="name" placeholder="Domo Name"/>
-	  <label htmlFor="age">Age:</label>
-	  <input id="domoAge" type="text" name="age" placeholder="Domo Age"/>
-	  <input type="hidden" name="_csrf" value={props.csrf}/>
-	  <input className="makeDomoSubmit" type="submit" value="Make Domo"/>
-	</form>*/
+		null
 	);
 };
 
-function countdown() {
- 		var timer = setInterval(function(){
- 			//button.disabled = true;
-    		seconds--;
-    		temp.innerHTML = seconds;
-    		if (seconds === 0) {
-    			alert("Game over! Your score is " + letters);
-    			//scoreDiv.innerHTML = "0";
-    			words.innerHTML = "";
-    			button.disabled = false;
-    			clearInterval(timer);
-    			seconds = 60;
-    			timerDiv.innerHTML = "60";
-    			button.disabled = false;	
-    		}
- 		}, 1000);
-  	}
-
 const DomoList = function(props) {
-  
-  
+  words = document.querySelector('.words');
+  money = document.querySelector('.money');
+  cashMoneys = 0;
+  return (
+	<div className = "domoList">
+	  <div className="scoreWrap">
+	    <h2>Money</h2>
+	    <span className="money">0</span>
+	  </div>
+	  <div className="wordsWrap">
+	    <h3 className="words"></h3>
+	  </div>
+	</div>
+  );
+  /*
   if(props.domos.length === 0){
 		return(
 			<div className="domoList">
@@ -88,6 +119,7 @@ const DomoList = function(props) {
 			{domoNodes}
 		</div>
 	);
+	*/
 };
 
 const loadDomosFromServer = () =>{
@@ -119,3 +151,5 @@ const getToken = () => {
 $(document).ready(function(){
 	getToken();
 });
+
+document.addEventListener("keydown", typing, false);
