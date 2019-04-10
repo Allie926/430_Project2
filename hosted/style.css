@@ -58,7 +58,7 @@ nav:nth-child(1) {
     border-top-right-radius: 4px;
 }
 
-.moneyForm label {
+.moneyForm p {
     display: inline-block;
     width: 75px;
     margin-left: 10px;
@@ -71,7 +71,7 @@ nav:nth-child(1) {
     float:left;
 }
 
-.makeDomoSubmit {
+.startChallenge {
     transition: background-color 0.4s ease;
     display: inline;
     width: 90px;
@@ -81,11 +81,11 @@ nav:nth-child(1) {
     text-decoration: none;
 }
 
-.makeDomoSubmit:link, .makeDomoSubmit:visited, .makeDomoSubmit:hover, .makeDomoSubmit:active {
+.startChallenge:link, .startChallenge:visited, .startChallenge:hover, .startChallenge:active {
     color: white;
 }
 
-.makeDomoSubmit:hover {
+.startChallenge:hover {
     transition: background-color 0.4s ease;
     background-color: #338acc;
 }
