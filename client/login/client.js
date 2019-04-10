@@ -99,11 +99,11 @@ const setup = (csrf) => {
 	
 	loginButton.addEventListener("click",(e)=>{
 		e.preventDefault();
-		createLoginWindow(crsf);
+		createLoginWindow(csrf);
 		return false;
 	});
 	
-	createLoginWindow(crsf);
+	createLoginWindow(csrf);
 };
 
 const getToken = () => {
