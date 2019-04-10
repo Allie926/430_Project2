@@ -115,11 +115,11 @@ var setup = function setup(csrf) {
 
 	loginButton.addEventListener("click", function (e) {
 		e.preventDefault();
-		createLoginWindow(crsf);
+		createLoginWindow(csrf);
 		return false;
 	});
 
-	createLoginWindow(crsf);
+	createLoginWindow(csrf);
 };
 
 var getToken = function getToken() {
