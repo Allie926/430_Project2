@@ -14,6 +14,15 @@ const handleDomo = (e) => {
 	return false;
 };
 
+const MoneyForm = (props) => {
+  return(
+  <form id="moneyForm">
+    <p>Current Savings: </p>
+    <input className="startChallenge" type="submit" value="Begin a new Typing Challenge"/>
+  </form>
+  );
+};
+/*
 const DomoForm = (props) => {
 	return(
 	<form id="domoForm"
@@ -31,7 +40,7 @@ const DomoForm = (props) => {
 	  <input className="makeDomoSubmit" type="submit" value="Make Domo"/>
 	</form>
 	);
-};
+};*/
 
 const DomoList = function(props) {
 	if(props.domos.length === 0){
