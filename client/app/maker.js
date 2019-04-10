@@ -25,7 +25,10 @@ const handleDomo = (e) => {
 
 const DomoForm = (props) => {
 	return(
-      <form id="moneyForm">
+      <form id="moneyForm"
+        name="moneyForm"
+        className="moneyForm"
+      >
         <p>Current Savings: </p>
         <input className="startChallenge" type="submit" value="Begin a new Typing Challenge" />
       </form>
