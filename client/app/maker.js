@@ -1,4 +1,5 @@
-const list = ['GOD', 'DOG', 'BOTTLE'];
+const list = ['GOD', 'DOG', 'BOTTLE','PSYCHOTIC','COPPER','MONEY','CONSULT','GUSTY','IDIOTIC','TREMBLE',
+			  'MURKY', 'CREDIT', 'OUTSTANDING', 'CAUTIOUS', 'SHAPE', 'DEGREE', 'SUBSCRIBE', 'MANIACAL', 'CONTINUE', 'SUPPLY'];
 let letters = 0;
 let typed;
 let cashMoneys;
@@ -25,7 +26,7 @@ const handleDomo = (e) => {
 
 function random() {
     words.innerHTML = "";
-    let random = Math.floor(Math.random() * (3));
+    let random = Math.floor(Math.random() * (20));
     let wordArray = list[random].split("");
     for (let i = 0; i < wordArray.length; i++) { //building the words with spans around the letters
         let span = document.createElement("span");
