@@ -9,7 +9,7 @@ let money;
 
 
 const handleDomo = (e) => {
-	e.preventDefault(0);
+	//e.preventDefault(0);
 	
 	$("#domoMessage").animate({width:'hide'},350);
 	
@@ -17,7 +17,7 @@ const handleDomo = (e) => {
 		handleError("RAWR! All fields are required");
 		return false;
 	}
-	sendAjax('POST', $("#domoForm").attr("action"), $("#domoForm").serialize(),function(){
+	sendAjax('POST', "/maker", cashMoneys,function(){
 		loadDomosFromServer();
 	});
 	
@@ -63,6 +63,7 @@ function typing(e) {
   			words.classList.add("animated");
   			words.classList.add("fadeOut");
   			cashMoneys++; // increment the cashMoneys
+			handleDomo();
   			money.innerHTML = cashMoneys; //add cashMoneys to the cashMoneys div
   			document.removeEventListener("keydown", typing, false);
   			setTimeout(function(){
@@ -85,14 +86,14 @@ const TypeList = function(props) {
   words = document.querySelector('.words');
   money = document.querySelector('.money');
   cashMoneys = 0;
-  return (
+  return(
 	<div className = "domoList">
 	  <div className="scoreWrap">
 	    <h2>Money</h2>
-	    <span className="money">0</span>
+	    <span className="money">{cashMoneys}</span>
 	  </div>
 	  <div className="wordsWrap">
-	    <h3 className="words"></h3>
+	    <h3 className="words">Press any button to start</h3>
 	  </div>
 	</div>
   );

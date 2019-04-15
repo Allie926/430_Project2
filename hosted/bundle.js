@@ -9,7 +9,7 @@ var words = void 0;
 var money = void 0;
 
 var handleDomo = function handleDomo(e) {
-	e.preventDefault(0);
+	//e.preventDefault(0);
 
 	$("#domoMessage").animate({ width: 'hide' }, 350);
 
@@ -17,7 +17,7 @@ var handleDomo = function handleDomo(e) {
 		handleError("RAWR! All fields are required");
 		return false;
 	}
-	sendAjax('POST', $("#domoForm").attr("action"), $("#domoForm").serialize(), function () {
+	sendAjax('POST', "/maker", cashMoneys, function () {
 		loadDomosFromServer();
 	});
 
@@ -67,6 +67,7 @@ function typing(e) {
 			words.classList.add("animated");
 			words.classList.add("fadeOut");
 			cashMoneys++; // increment the cashMoneys
+			handleDomo();
 			money.innerHTML = cashMoneys; //add cashMoneys to the cashMoneys div
 			document.removeEventListener("keydown", typing, false);
 			setTimeout(function () {
@@ -102,20 +103,24 @@ var TypeList = function TypeList(props) {
 			React.createElement(
 				'span',
 				{ className: 'money' },
-				'0'
+				cashMoneys
 			)
 		),
 		React.createElement(
 			'div',
 			{ className: 'wordsWrap' },
-			React.createElement('h3', { className: 'words' })
+			React.createElement(
+				'h3',
+				{ className: 'words' },
+				'Press any button to start'
+			)
 		)
 	);
 };
 
 var loadDomosFromServer = function loadDomosFromServer() {
 	sendAjax('GET', '/getDomos', null, function (data) {
-		ReactDOM.render(React.createElement(TypeList, { domos: data.domos }), document.querySelector(".money"));
+		ReactDOM.render(React.createElement(TypeList, { domos: data.domos }), document.querySelector("#domos"));
 	});
 };
 

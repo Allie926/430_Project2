@@ -17,9 +17,7 @@ const makeDomo = (req, res) => {
     return res.status(400).json({ error: 'RAWR! Both name and age are required' });
   }
   const domoData = {
-    name: req.body.name,
-    age: req.body.age,
-    owner: req.session.account._id,
+    money: req,
   };
 
   const newDomo = new Domo.DomoModel(domoData);
