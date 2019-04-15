@@ -4,6 +4,7 @@ html, body {
     margin: 0;
     padding: 0;
     overflow-x: hidden;
+	background-color:#696969;
 }
 
 #logo {
@@ -17,7 +18,7 @@ html, body {
 nav {
     width: 100%;
     height: 50px;
-    background-color: #55acee;
+    background-color: #003366;
 }
 
 nav:nth-child(1) {
@@ -38,13 +39,13 @@ nav:nth-child(1) {
     text-decoration: none;
     padding: 5px;
     border-radius: 4px;
-    background-color: #55acee;
+    background-color: #003366;
     transition: background-color 0.4s ease;
 }
 
 .navlink a:hover {
     transition: background-color 0.8s ease;
-    background-color: #66bdff;
+    background-color: #696969;
 }
 
 .moneyForm {
@@ -76,30 +77,13 @@ nav:nth-child(1) {
 
 #ad1, #ad2 {
 	max-width:20%;
+	padding-top:30px;
 }
 #ad1 {
 	float:left;
 }
 #ad2 {
 	float:right;
-}
-.startChallenge {
-    transition: background-color 0.4s ease;
-    display: inline;
-    width: 180px;
-    background-color: #55acee;
-    border-radius: 2px;
-    color: white;
-    text-decoration: none;
-}
-
-.startChallenge:link, .startChallenge:visited, .startChallenge:hover, .startChallenge:active {
-    color: white;
-}
-
-.startChallenge:hover {
-    transition: background-color 0.4s ease;
-    background-color: #338acc;
 }
 
 .mainForm {
@@ -130,9 +114,9 @@ nav:nth-child(1) {
     margin-top: 14px;
     font-size: 1.2em;
     width: 100px;
-    background-color: #55acee;
+    background-color: #003366;
     border-radius: 2px;
-    border-color: #66acee;
+    border-color: #003366;
     padding: 3px 0px;
     color: white;
     text-decoration: none;
@@ -144,7 +128,7 @@ nav:nth-child(1) {
 
 .formSubmit:hover {
     transition: background-color 0.4s ease;
-    background-color: #338acc;
+    background-color: #003366;
 }
 
 #user, #pass, #pass2 {
@@ -204,10 +188,13 @@ nav:nth-child(1) {
 #domos {
     width: 40%;
     min-width: 400px;
-    border: 2px solid #55acee;
+    border: 2px solid #003390;
     border-radius: 4px;
     margin: 0 auto;
     margin-top: 100px;
+	color:white;
+	background-color:#696969;
+	padding-left:20px;
 }
 
 .domo {
@@ -215,9 +202,9 @@ nav:nth-child(1) {
     margin: 0 auto;
     margin-top: 2px;
     margin-bottom: 2px;
-    border: 2px solid #55acee;
+    border: 2px solid #003390;
     border-radius: 4px;
-    background-color: #55acee;
+    background-color: #003390;
     padding: 10px;
     min-height:60px;
     overflow: hidden;
