@@ -1,6 +1,6 @@
 'use strict';
 
-var list = ['GOD', 'DOG', 'BOTTLE'];
+var list = ['GOD', 'DOG', 'BOTTLE', 'PSYCHOTIC', 'COPPER', 'MONEY', 'CONSULT', 'GUSTY', 'IDIOTIC', 'TREMBLE', 'MURKY', 'CREDIT', 'OUTSTANDING', 'CAUTIOUS', 'SHAPE', 'DEGREE', 'SUBSCRIBE', 'MANIACAL', 'CONTINUE', 'SUPPLY'];
 var letters = 0;
 var typed = void 0;
 var cashMoneys = void 0;
@@ -26,7 +26,7 @@ var handleDomo = function handleDomo(e) {
 
 function random() {
 	words.innerHTML = "";
-	var random = Math.floor(Math.random() * 3);
+	var random = Math.floor(Math.random() * 20);
 	var wordArray = list[random].split("");
 	for (var i = 0; i < wordArray.length; i++) {
 		//building the words with spans around the letters
@@ -77,13 +77,14 @@ function typing(e) {
 		}
 	}
 }
+/*
+const TypeForm = (props) => {
+	return(
+		null
+	);
+};*/
 
-var DomoForm = function DomoForm(props) {
-
-	return null;
-};
-
-var DomoList = function DomoList(props) {
+var TypeList = function TypeList(props) {
 	words = document.querySelector('.words');
 	money = document.querySelector('.money');
 	cashMoneys = 0;
@@ -110,42 +111,16 @@ var DomoList = function DomoList(props) {
 			React.createElement('h3', { className: 'words' })
 		)
 	);
-	/*
- if(props.domos.length === 0){
- return(
- 	<div className="domoList">
- 		<h3 className="emptyDomo">No Domos yet</h3>
- 	</div>
- );
- }
- 
- const domoNodes = props.domos.map(function(domo){
- return(
- 	<div key={domo._id} className="domo">
- 		<img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace"/>
- 		<h3 className="domoName"> Name: {domo.name} </h3>
- 		<h3 className="domoAge"> Age: {domo.age}</h3>
- 	</div>
- );
- });
- return(
- <div className = "domoList">
- 	{domoNodes}
- </div>
- );
- */
 };
 
 var loadDomosFromServer = function loadDomosFromServer() {
 	sendAjax('GET', '/getDomos', null, function (data) {
-		ReactDOM.render(React.createElement(DomoList, { domos: data.domos }), document.querySelector("#domos"));
+		ReactDOM.render(React.createElement(TypeList, { domos: data.domos }), document.querySelector(".money"));
 	});
 };
 
 var setup = function setup(csrf) {
-	ReactDOM.render(React.createElement(DomoForm, { csrf: csrf }), document.querySelector("#makeDomo"));
-
-	ReactDOM.render(React.createElement(DomoList, { domos: [] }), document.querySelector("#domos"));
+	ReactDOM.render(React.createElement(TypeList, { domos: [] }), document.querySelector("#domos"));
 
 	loadDomosFromServer();
 };

@@ -111,7 +111,7 @@ const setup = function(csrf) {
 		<TypeList domos={[]}/>, document.querySelector("#domos")
 	);
 	
-	loadDomosFromServer();
+	//loadDomosFromServer();
 };
 
 const getToken = () => {

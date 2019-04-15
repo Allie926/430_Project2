@@ -260,3 +260,7 @@ h3.domoAge {
 .domo:last-child {
     margin-bottom:10px;
 }
+
+.bg {
+	background-color: #04AF71;
+}
