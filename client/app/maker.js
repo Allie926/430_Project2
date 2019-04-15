@@ -74,15 +74,14 @@ function typing(e) {
 
   	}
 }
-
-const DomoForm = (props) => {
-	
+/*
+const TypeForm = (props) => {
 	return(
 		null
 	);
-};
+};*/
 
-const DomoList = function(props) {
+const TypeList = function(props) {
   words = document.querySelector('.words');
   money = document.querySelector('.money');
   cashMoneys = 0;
@@ -122,25 +121,21 @@ const DomoList = function(props) {
 	);
 	*/
 };
-
+/*
 const loadDomosFromServer = () =>{
 	sendAjax('GET', '/getDomos',null,(data)=>{
 		ReactDOM.render(
 			<DomoList domos={data.domos}/>,document.querySelector("#domos")
 		);
 	});
-};
+};*/
 
 const setup = function(csrf) {
 	ReactDOM.render(
-		<DomoForm csrf ={csrf}/>,document.querySelector("#makeDomo")
+		<TypeList domos={[]}/>, document.querySelector("#domos")
 	);
 	
-	ReactDOM.render(
-		<DomoList domos={[]}/>, document.querySelector("#domos")
-	);
-	
-	loadDomosFromServer();
+	//loadDomosFromServer();
 };
 
 const getToken = () => {
