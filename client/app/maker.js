@@ -2,26 +2,53 @@ const list = ['GOD', 'DOG', 'BOTTLE','PSYCHOTIC','COPPER','MONEY','CONSULT','GUS
 			  'MURKY', 'CREDIT', 'OUTSTANDING', 'CAUTIOUS', 'SHAPE', 'DEGREE', 'SUBSCRIBE', 'MANIACAL', 'CONTINUE', 'SUPPLY'];
 let letters = 0;
 let typed;
-let cashMoneys;
+let cashMoneys = 0;
 let spans;
 let words;
 let money;
 
-
+//handles money, name needs to be changed
 const handleDomo = (e) => {
-	//e.preventDefault(0);
+	e.preventDefault(0);
 	
-	$("#domoMessage").animate({width:'hide'},350);
-	
-	if($("#domoName").val() == '' || $("#domoAge").val() ==''){
-		handleError("RAWR! All fields are required");
-		return false;
-	}
-	sendAjax('POST', "/maker", cashMoneys,function(){
+	sendAjax('POST', $("#domoForm").attr("action"), $("#domoForm").serialize(),function(){
 		loadDomosFromServer();
 	});
 	
 	return false;
+};
+
+const DomoForm = (props) => {
+	if(!props.domos){
+		return(
+		  <form id="domoForm"
+			onSubmit={handleDomo}
+			name="domoForm"
+			action="/maker"
+			method="POST"
+			className="domoForm"
+		  >
+		  <label htmlFor="money">Money: </label>
+		  <input id="domoMoney" type="text" name="money"/>
+		  <input type="hidden" name="_csrf" value={props.csrf}/>
+		  <input className="makeDomoSubmit" type="submit" value="Save"/>
+		  </form>
+	    );
+	}
+	return(
+		  <form id="domoForm"
+			onSubmit={handleDomo}
+			name="domoForm"
+			action="/maker"
+			method="POST"
+			className="domoForm"
+		  >
+		  <label htmlFor="money">Money: </label>
+		  <input id="domoMoney" type="text" name="money" value={props.domos[0].money}/>
+		  <input type="hidden" name="_csrf" value={props.csrf}/>
+		  <input className="makeDomoSubmit" type="submit" value="Save"/>
+		  </form>
+	    );
 };
 
 function random() {
@@ -63,8 +90,7 @@ function typing(e) {
   			words.classList.add("animated");
   			words.classList.add("fadeOut");
   			cashMoneys++; // increment the cashMoneys
-			handleDomo();
-  			money.innerHTML = cashMoneys; //add cashMoneys to the cashMoneys div
+			document.querySelector("#domoMoney").value = cashMoneys;
   			document.removeEventListener("keydown", typing, false);
   			setTimeout(function(){
   				words.className = "words"; // restart the classes
@@ -75,26 +101,15 @@ function typing(e) {
 
   	}
 }
-/*
-const TypeForm = (props) => {
-	return(
-		null
-	);
-};*/
 
 const TypeList = function(props) {
   words = document.querySelector('.words');
   money = document.querySelector('.money');
-  cashMoneys = 0;
   return(
 	<div className = "domoList">
-	  <div className="scoreWrap">
-	    <h2>Money</h2>
-	    <span className="money">{cashMoneys}</span>
-	  </div>
-	  <div className="wordsWrap">
-	    <h3 className="words">Press any button to start</h3>
-	  </div>
+	<div className="wordsWrap">
+	  <h3 className="words">Press any button to start</h3>
+	</div>
 	</div>
   );
 };
@@ -108,6 +123,9 @@ const loadDomosFromServer = () =>{
 };
 
 const setup = function(csrf) {
+	ReactDOM.render(
+		<DomoForm csrf ={csrf}/>,document.querySelector("#makeDomo")
+	);
 	ReactDOM.render(
 		<TypeList domos={[]}/>, document.querySelector("#domos")
 	);

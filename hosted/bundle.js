@@ -3,25 +3,61 @@
 var list = ['GOD', 'DOG', 'BOTTLE', 'PSYCHOTIC', 'COPPER', 'MONEY', 'CONSULT', 'GUSTY', 'IDIOTIC', 'TREMBLE', 'MURKY', 'CREDIT', 'OUTSTANDING', 'CAUTIOUS', 'SHAPE', 'DEGREE', 'SUBSCRIBE', 'MANIACAL', 'CONTINUE', 'SUPPLY'];
 var letters = 0;
 var typed = void 0;
-var cashMoneys = void 0;
+var cashMoneys = 0;
 var spans = void 0;
 var words = void 0;
 var money = void 0;
 
+//handles money, name needs to be changed
 var handleDomo = function handleDomo(e) {
-	//e.preventDefault(0);
+	e.preventDefault(0);
 
-	$("#domoMessage").animate({ width: 'hide' }, 350);
-
-	if ($("#domoName").val() == '' || $("#domoAge").val() == '') {
-		handleError("RAWR! All fields are required");
-		return false;
-	}
-	sendAjax('POST', "/maker", cashMoneys, function () {
+	sendAjax('POST', $("#domoForm").attr("action"), $("#domoForm").serialize(), function () {
 		loadDomosFromServer();
 	});
 
 	return false;
+};
+
+var DomoForm = function DomoForm(props) {
+	if (!props.domos) {
+		return React.createElement(
+			'form',
+			{ id: 'domoForm',
+				onSubmit: handleDomo,
+				name: 'domoForm',
+				action: '/maker',
+				method: 'POST',
+				className: 'domoForm'
+			},
+			React.createElement(
+				'label',
+				{ htmlFor: 'money' },
+				'Money: '
+			),
+			React.createElement('input', { id: 'domoMoney', type: 'text', name: 'money' }),
+			React.createElement('input', { type: 'hidden', name: '_csrf', value: props.csrf }),
+			React.createElement('input', { className: 'makeDomoSubmit', type: 'submit', value: 'Save' })
+		);
+	}
+	return React.createElement(
+		'form',
+		{ id: 'domoForm',
+			onSubmit: handleDomo,
+			name: 'domoForm',
+			action: '/maker',
+			method: 'POST',
+			className: 'domoForm'
+		},
+		React.createElement(
+			'label',
+			{ htmlFor: 'money' },
+			'Money: '
+		),
+		React.createElement('input', { id: 'domoMoney', type: 'text', name: 'money', value: props.domos[0].money }),
+		React.createElement('input', { type: 'hidden', name: '_csrf', value: props.csrf }),
+		React.createElement('input', { className: 'makeDomoSubmit', type: 'submit', value: 'Save' })
+	);
 };
 
 function random() {
@@ -67,8 +103,7 @@ function typing(e) {
 			words.classList.add("animated");
 			words.classList.add("fadeOut");
 			cashMoneys++; // increment the cashMoneys
-			handleDomo();
-			money.innerHTML = cashMoneys; //add cashMoneys to the cashMoneys div
+			document.querySelector("#domoMoney").value = cashMoneys;
 			document.removeEventListener("keydown", typing, false);
 			setTimeout(function () {
 				words.className = "words"; // restart the classes
@@ -78,34 +113,13 @@ function typing(e) {
 		}
 	}
 }
-/*
-const TypeForm = (props) => {
-	return(
-		null
-	);
-};*/
 
 var TypeList = function TypeList(props) {
 	words = document.querySelector('.words');
 	money = document.querySelector('.money');
-	cashMoneys = 0;
 	return React.createElement(
 		'div',
 		{ className: 'domoList' },
-		React.createElement(
-			'div',
-			{ className: 'scoreWrap' },
-			React.createElement(
-				'h2',
-				null,
-				'Money'
-			),
-			React.createElement(
-				'span',
-				{ className: 'money' },
-				cashMoneys
-			)
-		),
 		React.createElement(
 			'div',
 			{ className: 'wordsWrap' },
@@ -125,6 +139,7 @@ var loadDomosFromServer = function loadDomosFromServer() {
 };
 
 var setup = function setup(csrf) {
+	ReactDOM.render(React.createElement(DomoForm, { csrf: csrf }), document.querySelector("#makeDomo"));
 	ReactDOM.render(React.createElement(TypeList, { domos: [] }), document.querySelector("#domos"));
 
 	loadDomosFromServer();
