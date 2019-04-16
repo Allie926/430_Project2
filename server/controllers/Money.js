@@ -2,7 +2,7 @@ const models = require('../models');
 
 const Money = models.Money;
 
-/*const makerPage = (req, res) => {
+/* const makerPage = (req, res) => {
   Domo.DomoModel.findByOwner(req.session.account._id, (err, docs) => {
     if (err) {
       console.log(err);
@@ -48,6 +48,6 @@ const getDomos = (request, response) => {
   });
 };
 
-//module.exports.makerPage = makerPage;
+// module.exports.makerPage = makerPage;
 module.exports.getDomos = getDomos;
 module.exports.make = makeMoney;
