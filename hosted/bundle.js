@@ -3,7 +3,7 @@
 var list = ['GOD', 'DOG', 'BOTTLE', 'PSYCHOTIC', 'COPPER', 'MONEY', 'CONSULT', 'GUSTY', 'IDIOTIC', 'TREMBLE', 'MURKY', 'CREDIT', 'OUTSTANDING', 'CAUTIOUS', 'SHAPE', 'DEGREE', 'SUBSCRIBE', 'MANIACAL', 'CONTINUE', 'SUPPLY'];
 var letters = 0;
 var typed = void 0;
-var cashMoneys = 0;
+var cashMoneys = 0; //money variable
 var spans = void 0;
 var words = void 0;
 var money = void 0;
@@ -18,7 +18,7 @@ var handleDomo = function handleDomo(e) {
 
 	return false;
 };
-
+//the form for submission/saving at the top
 var DomoForm = function DomoForm(props) {
 	return React.createElement(
 		'form',
@@ -39,7 +39,7 @@ var DomoForm = function DomoForm(props) {
 		React.createElement('input', { className: 'makeDomoSubmit', type: 'submit', value: 'Save' })
 	);
 };
-
+//random word choice function
 function random() {
 	words.innerHTML = "";
 	var random = Math.floor(Math.random() * 20);
@@ -53,7 +53,7 @@ function random() {
 	}
 	spans = document.querySelectorAll(".span");
 }
-
+//typing function
 function typing(e) {
 	if (!spans) {
 		random();
@@ -93,23 +93,16 @@ function typing(e) {
 		}
 	}
 }
-
+//the html elements to fill in the middle of the screen
 var TypeList = function TypeList(props) {
 	words = document.querySelector('.words');
 	money = document.querySelector('.money');
+	//if brand new
 	if (props.domos.length === 0) {
 		return React.createElement(
 			'div',
 			{ className: 'domoList' },
-			React.createElement(
-				'div',
-				{ className: 'moneyWrap' },
-				React.createElement(
-					'h3',
-					{ classname: 'domoMoney' },
-					cashMoneys
-				)
-			),
+			React.createElement('div', { className: 'moneyWrap' }),
 			React.createElement(
 				'div',
 				{ className: 'wordsWrap' },
@@ -121,6 +114,7 @@ var TypeList = function TypeList(props) {
 			)
 		);
 	}
+	//else
 	var domoNodes = props.domos.map(function (domo) {
 		//cashMoneys=props.domos[props.domos.length-1].money;
 		//console.log(props.domos[props.domos.length-1]);
@@ -138,15 +132,7 @@ var TypeList = function TypeList(props) {
 	return React.createElement(
 		'div',
 		{ className: 'domoList' },
-		React.createElement(
-			'div',
-			{ className: 'moneyWrap' },
-			React.createElement(
-				'h3',
-				{ classname: 'domoMoney' },
-				cashMoneys
-			)
-		),
+		React.createElement('div', { className: 'moneyWrap' }),
 		React.createElement(
 			'div',
 			{ className: 'wordsWrap' },
@@ -158,13 +144,13 @@ var TypeList = function TypeList(props) {
 		)
 	);
 };
-
+//loads the server variables
 var loadDomosFromServer = function loadDomosFromServer() {
 	sendAjax('GET', '/getDomos', null, function (data) {
 		ReactDOM.render(React.createElement(TypeList, { domos: data.domos }), document.querySelector("#domos"));
 	});
 };
-
+//setups the page, calls React
 var setup = function setup(csrf) {
 	ReactDOM.render(React.createElement(DomoForm, { csrf: csrf }), document.querySelector("#makeDomo"));
 	ReactDOM.render(React.createElement(TypeList, { domos: [] }), document.querySelector("#domos"));
@@ -177,11 +163,11 @@ var getToken = function getToken() {
 		setup(result.csrfToken);
 	});
 };
-
+//After page loaded, calls getToken
 $(document).ready(function () {
 	getToken();
 });
-
+//used for starting our typing adventure
 document.addEventListener("keydown", typing, false);
 "use strict";
 

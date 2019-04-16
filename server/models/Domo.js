@@ -10,6 +10,7 @@ const convertId = mongoose.Types.ObjectId;
 const setName = (name) => _.escape(name).trim();
 
 const DomoSchema = new mongoose.Schema({
+  //created a new variable to be saved
   money: {
 	type: Number,
 	required:true,

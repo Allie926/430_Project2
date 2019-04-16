@@ -12,6 +12,7 @@ const makerPage = (req, res) => {
     return res.render('app', { csrfToken: req.csrfToken(), domos: docs });
   });
 };
+//same as domomaker just changed around variables to be saved inside
 const makeDomo = (req, res) => {
   const domoData = {
     money: req.body.money,

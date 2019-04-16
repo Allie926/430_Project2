@@ -2,7 +2,7 @@ const list = ['GOD', 'DOG', 'BOTTLE','PSYCHOTIC','COPPER','MONEY','CONSULT','GUS
 			  'MURKY', 'CREDIT', 'OUTSTANDING', 'CAUTIOUS', 'SHAPE', 'DEGREE', 'SUBSCRIBE', 'MANIACAL', 'CONTINUE', 'SUPPLY'];
 let letters = 0;
 let typed;
-let cashMoneys = 0;
+let cashMoneys = 0; //money variable
 let spans;
 let words;
 let money;
@@ -17,7 +17,7 @@ const handleDomo = (e) => {
 	
 	return false;
 };
-
+//the form for submission/saving at the top
 const DomoForm = (props) => {
 	return(
 	  <form id="domoForm"
@@ -34,7 +34,7 @@ const DomoForm = (props) => {
 	  </form>
 	);
 };
-
+//random word choice function
 function random() {
     words.innerHTML = "";
     let random = Math.floor(Math.random() * (20));
@@ -47,7 +47,7 @@ function random() {
     }
     spans = document.querySelectorAll(".span");
 }
-
+//typing function
 function typing(e) {
 	if(!spans){
 		random();
@@ -85,16 +85,17 @@ function typing(e) {
 
   	}
 }
-
+//the html elements to fill in the middle of the screen
 const TypeList = function(props) {
   words = document.querySelector('.words');
   money = document.querySelector('.money');
+  //if brand new
   if(props.domos.length === 0)
   {
 	 return(
 	<div className = "domoList">
 	<div className = "moneyWrap">
-	  <h3 classname="domoMoney">{cashMoneys}</h3>
+	 
 	</div>
 	<div className="wordsWrap">
 	  <h3 className="words">Press any button to start</h3>
@@ -102,6 +103,7 @@ const TypeList = function(props) {
 	</div>
   ); 
   }
+  //else
   const domoNodes = props.domos.map(function(domo){
 		//cashMoneys=props.domos[props.domos.length-1].money;
 		//console.log(props.domos[props.domos.length-1]);
@@ -114,7 +116,7 @@ const TypeList = function(props) {
 	return(
 		<div className = "domoList">
 		  <div className = "moneyWrap">
-		    <h3 classname="domoMoney">{cashMoneys}</h3>
+		    
 		  </div>
 		  <div className="wordsWrap">
 		    <h3 className="words">Press any button to start</h3>
@@ -123,7 +125,7 @@ const TypeList = function(props) {
 	);
   
 };
-
+//loads the server variables
 const loadDomosFromServer = () =>{
 	sendAjax('GET', '/getDomos',null,(data)=>{
 		ReactDOM.render(
@@ -131,7 +133,7 @@ const loadDomosFromServer = () =>{
 		);
 	});
 };
-
+//setups the page, calls React
 const setup = function(csrf) {
 	ReactDOM.render(
 		<DomoForm csrf ={csrf}/>,document.querySelector("#makeDomo")
@@ -148,9 +150,9 @@ const getToken = () => {
 		setup(result.csrfToken);
 	});
 };
-
+//After page loaded, calls getToken
 $(document).ready(function(){
 	getToken();
 });
-
+//used for starting our typing adventure
 document.addEventListener("keydown", typing, false);
