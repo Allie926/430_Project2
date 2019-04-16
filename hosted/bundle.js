@@ -20,26 +20,6 @@ var handleDomo = function handleDomo(e) {
 };
 
 var DomoForm = function DomoForm(props) {
-	if (!props.domos) {
-		return React.createElement(
-			'form',
-			{ id: 'domoForm',
-				onSubmit: handleDomo,
-				name: 'domoForm',
-				action: '/maker',
-				method: 'POST',
-				className: 'domoForm'
-			},
-			React.createElement(
-				'label',
-				{ htmlFor: 'money' },
-				'Money: '
-			),
-			React.createElement('input', { id: 'domoMoney', type: 'text', name: 'money' }),
-			React.createElement('input', { type: 'hidden', name: '_csrf', value: props.csrf }),
-			React.createElement('input', { className: 'makeDomoSubmit', type: 'submit', value: 'Save' })
-		);
-	}
 	return React.createElement(
 		'form',
 		{ id: 'domoForm',
@@ -54,7 +34,7 @@ var DomoForm = function DomoForm(props) {
 			{ htmlFor: 'money' },
 			'Money: '
 		),
-		React.createElement('input', { id: 'domoMoney', type: 'text', name: 'money', value: props.domos[0].money }),
+		React.createElement('input', { id: 'domoMoney', type: 'text', name: 'money' }),
 		React.createElement('input', { type: 'hidden', name: '_csrf', value: props.csrf }),
 		React.createElement('input', { className: 'makeDomoSubmit', type: 'submit', value: 'Save' })
 	);
@@ -117,9 +97,56 @@ function typing(e) {
 var TypeList = function TypeList(props) {
 	words = document.querySelector('.words');
 	money = document.querySelector('.money');
+	if (props.domos.length === 0) {
+		return React.createElement(
+			'div',
+			{ className: 'domoList' },
+			React.createElement(
+				'div',
+				{ className: 'moneyWrap' },
+				React.createElement(
+					'h3',
+					{ classname: 'domoMoney' },
+					cashMoneys
+				)
+			),
+			React.createElement(
+				'div',
+				{ className: 'wordsWrap' },
+				React.createElement(
+					'h3',
+					{ className: 'words' },
+					'Press any button to start'
+				)
+			)
+		);
+	}
+	var domoNodes = props.domos.map(function (domo) {
+		//cashMoneys=props.domos[props.domos.length-1].money;
+		//console.log(props.domos[props.domos.length-1]);
+		return React.createElement(
+			'div',
+			{ key: domo._id, className: 'domo' },
+			React.createElement(
+				'h3',
+				{ className: 'domoMoney' },
+				' Money: ',
+				domo.money
+			)
+		);
+	});
 	return React.createElement(
 		'div',
 		{ className: 'domoList' },
+		React.createElement(
+			'div',
+			{ className: 'moneyWrap' },
+			React.createElement(
+				'h3',
+				{ classname: 'domoMoney' },
+				cashMoneys
+			)
+		),
 		React.createElement(
 			'div',
 			{ className: 'wordsWrap' },

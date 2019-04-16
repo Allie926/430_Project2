@@ -19,36 +19,20 @@ const handleDomo = (e) => {
 };
 
 const DomoForm = (props) => {
-	if(!props.domos){
-		return(
-		  <form id="domoForm"
-			onSubmit={handleDomo}
-			name="domoForm"
-			action="/maker"
-			method="POST"
-			className="domoForm"
-		  >
-		  <label htmlFor="money">Money: </label>
-		  <input id="domoMoney" type="text" name="money"/>
-		  <input type="hidden" name="_csrf" value={props.csrf}/>
-		  <input className="makeDomoSubmit" type="submit" value="Save"/>
-		  </form>
-	    );
-	}
 	return(
-		  <form id="domoForm"
-			onSubmit={handleDomo}
-			name="domoForm"
-			action="/maker"
-			method="POST"
-			className="domoForm"
-		  >
-		  <label htmlFor="money">Money: </label>
-		  <input id="domoMoney" type="text" name="money" value={props.domos[0].money}/>
-		  <input type="hidden" name="_csrf" value={props.csrf}/>
-		  <input className="makeDomoSubmit" type="submit" value="Save"/>
-		  </form>
-	    );
+	  <form id="domoForm"
+		onSubmit={handleDomo}
+		name="domoForm"
+		action="/maker"
+		method="POST"
+		className="domoForm"
+	  >
+	  <label htmlFor="money">Money: </label>
+	  <input id="domoMoney" type="text" name="money"/>
+	  <input type="hidden" name="_csrf" value={props.csrf}/>
+	  <input className="makeDomoSubmit" type="submit" value="Save"/>
+	  </form>
+	);
 };
 
 function random() {
@@ -105,13 +89,39 @@ function typing(e) {
 const TypeList = function(props) {
   words = document.querySelector('.words');
   money = document.querySelector('.money');
-  return(
+  if(props.domos.length === 0)
+  {
+	 return(
 	<div className = "domoList">
+	<div className = "moneyWrap">
+	  <h3 classname="domoMoney">{cashMoneys}</h3>
+	</div>
 	<div className="wordsWrap">
 	  <h3 className="words">Press any button to start</h3>
 	</div>
 	</div>
-  );
+  ); 
+  }
+  const domoNodes = props.domos.map(function(domo){
+		//cashMoneys=props.domos[props.domos.length-1].money;
+		//console.log(props.domos[props.domos.length-1]);
+		return(
+			<div key={domo._id} className="domo">
+				<h3 className="domoMoney"> Money: {domo.money}</h3>
+			</div>
+		);
+	});
+	return(
+		<div className = "domoList">
+		  <div className = "moneyWrap">
+		    <h3 classname="domoMoney">{cashMoneys}</h3>
+		  </div>
+		  <div className="wordsWrap">
+		    <h3 className="words">Press any button to start</h3>
+		  </div>
+		</div>
+	);
+  
 };
 
 const loadDomosFromServer = () =>{
