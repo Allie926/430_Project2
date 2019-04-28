@@ -143,7 +143,7 @@ nav:nth-child(1) {
     box-shadow: 0px 0px 1px 1px #55acee;
 }
 
-#domoMessage {
+#moneyMessage {
     display:none;
     top: 325px;
     width: 400px;
@@ -154,7 +154,7 @@ nav:nth-child(1) {
     overflow: hidden;
 }
 
-#domoMessage h3 {
+#moneyMessage h3 {
     width: 200px;
     position: absolute;
     top: 0px;
@@ -174,7 +174,7 @@ nav:nth-child(1) {
     font-style: italic;
 }
 
-#domo {
+#money {
     z-index: 225;
     margin-top: -20px;
     margin-left: 135px;
@@ -185,7 +185,7 @@ nav:nth-child(1) {
     transform: rotate(330deg);
 }
 
-#domos {
+#moneys {
     width: 40%;
     min-width: 400px;
     border: 2px solid #003390;
@@ -197,7 +197,7 @@ nav:nth-child(1) {
 	padding-left:20px;
 }
 
-.domo {
+.money {
     width: 95%;
     margin: 0 auto;
     margin-top: 2px;
@@ -210,7 +210,7 @@ nav:nth-child(1) {
     overflow: hidden;
 }
 
-.domo:hover {
+.money:hover {
     transition: border-color 0.2s ease-out;
     border-color: rgba(255,255,255, 0.8);
     transition: background-color 2.6s ease-out;
@@ -252,14 +252,18 @@ h3.domoAge {
     font-size: 1.5em;
 }
 
-.domo:first-child {
+.money:first-child {
     margin-top: 10px;
 }
 
-.domo:last-child {
+.money:last-child {
     margin-bottom:10px;
 }
 
 .bg {
 	background-color: #04AF71;
+}
+
+.upgradeWrap { 
+	padding-top:25px;
 }

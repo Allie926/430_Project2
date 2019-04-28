@@ -4,39 +4,47 @@ var list = ['GOD', 'DOG', 'BOTTLE', 'PSYCHOTIC', 'COPPER', 'MONEY', 'CONSULT', '
 var letters = 0;
 var typed = void 0;
 var cashMoneys = 0; //money variable
+var multiplier = 1;
+var multCost = 10 + multiplier * multiplier;
+var moneyTime = 0;
+var timeCost = 10 + moneyTime * moneyTime;
 var spans = void 0;
 var words = void 0;
 var money = void 0;
 
 //handles money, name needs to be changed
-var handleDomo = function handleDomo(e) {
+var handleMoney = function handleMoney(e) {
 	e.preventDefault(0);
 
-	sendAjax('POST', $("#domoForm").attr("action"), $("#domoForm").serialize(), function () {
-		loadDomosFromServer();
+	sendAjax('POST', $("#moneyForm").attr("action"), $("#moneyForm").serialize(), function () {
+		loadMoneysFromServer();
 	});
 
 	return false;
 };
 //the form for submission/saving at the top
-var DomoForm = function DomoForm(props) {
+var MoneyForm = function MoneyForm(props) {
 	return React.createElement(
 		'form',
-		{ id: 'domoForm',
-			onSubmit: handleDomo,
-			name: 'domoForm',
+		{ id: 'moneyForm',
+			onSubmit: handleMoney,
+			name: 'moneyForm',
 			action: '/maker',
 			method: 'POST',
-			className: 'domoForm'
+			className: 'money'
 		},
 		React.createElement(
 			'label',
 			{ htmlFor: 'money' },
 			'Money: '
 		),
-		React.createElement('input', { id: 'domoMoney', type: 'text', name: 'money' }),
+		React.createElement('input', { id: 'inputMoney', type: 'text', name: 'money' }),
+		React.createElement('input', { id: 'multiplier', type: 'hidden', name: 'multiplier' }),
+		React.createElement('input', { id: 'multCost', type: 'hidden', name: 'multCost' }),
+		React.createElement('input', { id: 'moneyTime', type: 'hidden', name: 'moneyTime' }),
+		React.createElement('input', { id: 'timeCost', type: 'hidden', name: 'timeCost' }),
 		React.createElement('input', { type: 'hidden', name: '_csrf', value: props.csrf }),
-		React.createElement('input', { className: 'makeDomoSubmit', type: 'submit', value: 'Save' })
+		React.createElement('input', { className: 'makeMoneySubmit', type: 'submit', value: 'Save' })
 	);
 };
 //random word choice function
@@ -55,41 +63,63 @@ function random() {
 }
 //typing function
 function typing(e) {
-	if (!spans) {
-		random();
-		return;
-	}
-	typed = String.fromCharCode(e.which);
-	for (var i = 0; i < spans.length; i++) {
-		if (spans[i].innerHTML === typed) {
-			// if typed letter is the one from the word
-			if (spans[i].classList.contains("bg")) {
-				// if it already has class with the bacground color then check the next one
-				continue;
-			} else if (spans[i].classList.contains("bg") === false && spans[i - 1] === undefined || spans[i - 1].classList.contains("bg") !== false) {
-				spans[i].classList.add("bg");
-				break;
+	if (String.fromCharCode(e.which) === "1") {
+		if (cashMoneys >= multCost) {
+			multiplier += 1;
+			cashMoneys -= multCost;
+			multCost = 10 + multiplier * multiplier * multiplier;
+			document.querySelector("#multiplier").value = multiplier;
+			document.querySelector("#multCost").value = multCost;
+			document.querySelector("#inputMoney").value = cashMoneys;
+			ReactDOM.render(React.createElement(TypeList, { moneys: cashMoneys, multiplier: multiplier, multCost: multCost, moneyTime: moneyTime, timeCost: timeCost }), document.querySelector("#moneys"));
+		}
+	} else if (String.fromCharCode(e.which) === "2") {
+		if (cashMoneys >= timeCost) {
+			moneyTime += 1;
+			cashMoneys -= timeCost;
+			timeCost = 10 + moneyTime * moneyTime * moneyTime;
+			document.querySelector("#moneyTime").value = moneyTime;
+			document.querySelector("#timeCost").value = timeCost;
+			document.querySelector("#inputMoney").value = cashMoneys;
+			ReactDOM.render(React.createElement(TypeList, { moneys: cashMoneys, multiplier: multiplier, multCost: multCost, moneyTime: moneyTime, timeCost: timeCost }), document.querySelector("#moneys"));
+		}
+	} else {
+		if (!spans) {
+			random();
+			return;
+		}
+		typed = String.fromCharCode(e.which);
+		for (var i = 0; i < spans.length; i++) {
+			if (spans[i].innerHTML === typed) {
+				// if typed letter is the one from the word
+				if (spans[i].classList.contains("bg")) {
+					// if it already has class with the background color then check the next one
+					continue;
+				} else if (spans[i].classList.contains("bg") === false && spans[i - 1] === undefined || spans[i - 1].classList.contains("bg") !== false) {
+					spans[i].classList.add("bg");
+					break;
+				}
 			}
 		}
-	}
-	var checker = 0;
-	for (var j = 0; j < spans.length; j++) {
-		//checking if all the letters are typed
-		if (spans[j].className === "span bg") {
-			checker++;
-		}
-		if (checker === spans.length) {
-			// if so, animate the words with animate.css class
-			words.classList.add("animated");
-			words.classList.add("fadeOut");
-			cashMoneys++; // increment the cashMoneys
-			document.querySelector("#domoMoney").value = cashMoneys;
-			document.removeEventListener("keydown", typing, false);
-			setTimeout(function () {
-				words.className = "words"; // restart the classes
-				random(); // give another word
-				document.addEventListener("keydown", typing, false);
-			}, 400);
+		var checker = 0;
+		for (var j = 0; j < spans.length; j++) {
+			//checking if all the letters are typed
+			if (spans[j].className === "span bg") {
+				checker++;
+			}
+			if (checker === spans.length) {
+				// if so, animate the words with animate.css class
+				words.classList.add("animated");
+				words.classList.add("fadeOut");
+				cashMoneys += 1 * multiplier; // increment the cashMoneys
+				document.querySelector("#inputMoney").value = cashMoneys;
+				document.removeEventListener("keydown", typing, false);
+				setTimeout(function () {
+					words.className = "words"; // restart the classes
+					random(); // give another word
+					document.addEventListener("keydown", typing, false);
+				}, 400);
+			}
 		}
 	}
 }
@@ -98,64 +128,134 @@ var TypeList = function TypeList(props) {
 	words = document.querySelector('.words');
 	money = document.querySelector('.money');
 	//if brand new
-	if (props.domos.length === 0) {
+	if (!props.moneys) {
 		return React.createElement(
 			'div',
-			{ className: 'domoList' },
+			{ className: 'moneyList' },
 			React.createElement('div', { className: 'moneyWrap' }),
 			React.createElement(
 				'div',
 				{ className: 'wordsWrap' },
 				React.createElement(
-					'h3',
+					'h2',
 					{ className: 'words' },
 					'Press any button to start'
+				)
+			),
+			React.createElement(
+				'div',
+				{ className: 'upgradeWrap' },
+				React.createElement(
+					'h3',
+					null,
+					'Upgrades'
+				),
+				React.createElement(
+					'h4',
+					null,
+					'Press the corresponding number to upgrade the ability'
+				),
+				React.createElement(
+					'h5',
+					{ id: 'upgrade1' },
+					'($',
+					multCost,
+					') 1. Multiplier: ',
+					multiplier,
+					'x -> ',
+					multiplier + 1,
+					'x'
+				),
+				React.createElement(
+					'h5',
+					{ id: 'upgrade2' },
+					'($',
+					timeCost,
+					') 2. Money over time: $',
+					moneyTime,
+					' / 5 seconds -> $',
+					moneyTime + 1,
+					' / 5 seconds'
 				)
 			)
 		);
 	}
-	//else
-	var domoNodes = props.domos.map(function (domo) {
-		//cashMoneys=props.domos[props.domos.length-1].money;
-		//console.log(props.domos[props.domos.length-1]);
-		return React.createElement(
-			'div',
-			{ key: domo._id, className: 'domo' },
-			React.createElement(
-				'h3',
-				{ className: 'domoMoney' },
-				' Money: ',
-				domo.money
-			)
-		);
-	});
+	console.log(props);
 	return React.createElement(
 		'div',
-		{ className: 'domoList' },
+		{ className: 'moneyList' },
 		React.createElement('div', { className: 'moneyWrap' }),
 		React.createElement(
 			'div',
 			{ className: 'wordsWrap' },
 			React.createElement(
-				'h3',
+				'h2',
 				{ className: 'words' },
 				'Press any button to start'
+			)
+		),
+		React.createElement(
+			'div',
+			{ className: 'upgradeWrap' },
+			React.createElement(
+				'h3',
+				null,
+				'Upgrades'
+			),
+			React.createElement(
+				'h4',
+				null,
+				'Press the corresponding number to upgrade this ability'
+			),
+			React.createElement(
+				'h5',
+				{ id: 'upgrade1' },
+				'($',
+				multCost,
+				') 1. Multiplier: ',
+				props.multiplier,
+				'x -> ',
+				props.multiplier + 1,
+				'x'
+			),
+			React.createElement(
+				'h5',
+				{ id: 'upgrade2' },
+				'($',
+				props.timeCost,
+				') 2. Money over time: $',
+				props.moneyTime,
+				' / 5 seconds -> $',
+				props.moneyTime + 1,
+				' / 5 seconds'
 			)
 		)
 	);
 };
+
 //loads the server variables
-var loadDomosFromServer = function loadDomosFromServer() {
-	sendAjax('GET', '/getDomos', null, function (data) {
-		ReactDOM.render(React.createElement(TypeList, { domos: data.domos }), document.querySelector("#domos"));
+var loadMoneysFromServer = function loadMoneysFromServer() {
+	sendAjax('GET', '/getMoneys', null, function (data) {
+		console.log(data.moneys[data.moneys.length - 1]);
+		cashMoneys = data.moneys[data.moneys.length - 1].money;
+		multiplier = data.moneys[data.moneys.length - 1].multiplier;
+		document.querySelector("#multiplier").value = multiplier;
+		multCost = data.moneys[data.moneys.length - 1].multCost;
+		document.querySelector("#multCost").value = multCost;
+		moneyTime = data.moneys[data.moneys.length - 1].moneyTime;
+		document.querySelector("#moneyTime").value = moneyTime;
+		timeCost = data.moneys[data.moneys.length - 1].timeCost;
+		document.querySelector("#timeCost").value = timeCost;
+		document.querySelector("#inputMoney").value = cashMoneys;
+		ReactDOM.render(React.createElement(TypeList, { moneys: cashMoneys, multiplier: multiplier, multCost: multCost, moneyTime: moneyTime, timeCost: timeCost }), document.querySelector("#moneys"));
 	});
 };
 //setups the page, calls React
 var setup = function setup(csrf) {
-	ReactDOM.render(React.createElement(DomoForm, { csrf: csrf }), document.querySelector("#makeDomo"));
-	ReactDOM.render(React.createElement(TypeList, { domos: [] }), document.querySelector("#domos"));
+	ReactDOM.render(React.createElement(MoneyForm, { csrf: csrf }), document.querySelector("#makeMoney"));
+	ReactDOM.render(React.createElement(TypeList, { moneys: 0 }), document.querySelector("#moneys"));
 
-	loadDomosFromServer();
+	loadMoneysFromServer();
 };
 
 var getToken = function getToken() {
@@ -173,11 +273,11 @@ document.addEventListener("keydown", typing, false);
 
 var handleError = function handleError(message) {
   $("#errorMessage").text(message);
-  $("#domoMessage").animate({ width: 'toggle' }, 1000);
+  $("#moneyMessage").animate({ width: 'toggle' }, 1000);
 };
 
 var redirect = function redirect(response) {
-  $("#domoMessage").animate({ width: 'hide' }, 1000);
+  $("#moneyMessage").animate({ width: 'hide' }, 1000);
   window.location = response.redirect;
 };
 

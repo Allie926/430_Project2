@@ -2,19 +2,25 @@ const models = require('../models');
 
 const Money = models.Money;
 
-/* const makerPage = (req, res) => {
-  Domo.DomoModel.findByOwner(req.session.account._id, (err, docs) => {
+const makerPage = (req, res) => {
+  Money.MoneyModel.findByOwner(req.session.account._id, (err, docs) => {
     if (err) {
       console.log(err);
       return res.status(400).json({ error: 'An error occurred' });
     }
 
-    return res.render('app', { csrfToken: req.csrfToken(), domos: docs });
+    return res.render('app', { csrfToken: req.csrfToken(), moneys: docs });
   });
-};*/
+};
+//saves moneyData
 const makeMoney = (req, res) => {
   const moneyData = {
     money: req.body.money,
+	multiplier: req.body.multiplier,
+	multCost: req.body.multCost,
+	moneyTime: req.body.moneyTime,
+	timeCost: req.body.timeCost,
+    owner: req.session.account._id,
   };
 
   const newMoney = new Money.MoneyModel(moneyData);
@@ -26,7 +32,7 @@ const makeMoney = (req, res) => {
   moneyPromise.catch((err) => {
     console.log(err);
     if (err.code === 11000) {
-      return res.status(400).json({ error: 'Domo already exists.' });
+      return res.status(400).json({ error: 'Money already exists.' });
     }
 
     return res.status(400).json({ error: 'An error occurred' });
@@ -35,7 +41,7 @@ const makeMoney = (req, res) => {
   return moneyPromise;
 };
 
-const getDomos = (request, response) => {
+const getMoneys = (request, response) => {
   const req = request;
   const res = response;
 
@@ -44,10 +50,10 @@ const getDomos = (request, response) => {
       console.log(err);
       return res.status(400).json({ error: 'An error occurred' });
     }
-    return res.json({ domos: docs });
+    return res.json({ moneys: docs });
   });
 };
 
-// module.exports.makerPage = makerPage;
-module.exports.getDomos = getDomos;
+module.exports.makerPage = makerPage;
+module.exports.getMoneys = getMoneys;
 module.exports.make = makeMoney;
