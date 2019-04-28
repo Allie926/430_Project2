@@ -130,8 +130,6 @@ function typing(e) {
 }
 //the html elements to fill in the middle of the screen
 const TypeList = function(props) {
-  words = document.querySelector('.words');
-  money = document.querySelector('.money');
   //if brand new
   if(!props.moneys)
   {
@@ -175,20 +173,24 @@ const TypeList = function(props) {
 //loads the server variables
 const loadMoneysFromServer = () =>{
 	sendAjax('GET', '/getMoneys',null,(data)=>{
-		console.log(data.moneys[data.moneys.length-1]);
-		cashMoneys = data.moneys[data.moneys.length-1].money;
-		multiplier = data.moneys[data.moneys.length-1].multiplier;
+		words = document.querySelector('.words');
+		money = document.querySelector('.money');
+		if(data.moneys.length > 0)
+		{
+			cashMoneys = data.moneys[data.moneys.length-1].money;
+			multiplier = data.moneys[data.moneys.length-1].multiplier;
+			multCost = data.moneys[data.moneys.length-1].multCost;
+			moneyTime = data.moneys[data.moneys.length-1].moneyTime;
+			timeCost = data.moneys[data.moneys.length-1].timeCost;
+			ReactDOM.render(
+				<TypeList moneys={cashMoneys} multiplier={multiplier} multCost={multCost} moneyTime={moneyTime} timeCost={timeCost}/>,document.querySelector("#moneys")
+			);
+		}
 		document.querySelector("#multiplier").value = multiplier;
-		multCost = data.moneys[data.moneys.length-1].multCost;
 		document.querySelector("#multCost").value = multCost;
-		moneyTime = data.moneys[data.moneys.length-1].moneyTime;
 		document.querySelector("#moneyTime").value = moneyTime;
-		timeCost = data.moneys[data.moneys.length-1].timeCost;
 		document.querySelector("#timeCost").value = timeCost;
 		document.querySelector("#inputMoney").value = cashMoneys;
-		ReactDOM.render(
-			<TypeList moneys={cashMoneys} multiplier={multiplier} multCost={multCost} moneyTime={moneyTime} timeCost={timeCost}/>,document.querySelector("#moneys")
-		);
 	});
 };
 //setups the page, calls React
