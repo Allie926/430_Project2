@@ -77,7 +77,8 @@ MoneySchema.statics.findByOwner = (ownerId, callback) => {
   const search = {
     owner: convertId(ownerId),
   };
-  return MoneyModel.find(search).select('money multiplier multCost moneyTime timeCost wordCount wordCost').exec(callback);
+  return MoneyModel.find(search).select(
+  'money multiplier multCost moneyTime timeCost wordCount wordCost').exec(callback);
 };
 
 MoneyModel = mongoose.model('Money', MoneySchema);
