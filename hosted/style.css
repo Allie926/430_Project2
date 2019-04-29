@@ -4,21 +4,22 @@ html, body {
     margin: 0;
     padding: 0;
     overflow-x: hidden;
-	background-color:#696969;
+	background-color:black;
+	font-family: 'Exo 2', sans-serif;
 }
 
 #logo {
     height: 40px;
-    width: 40;
     padding-top: 5px;
     float:left;
-    border-radius: 8px;
+	border: 1px solid #00FF00;
+	width:50px;
 }
 
 nav {
     width: 100%;
     height: 50px;
-    background-color: #003366;
+	background-color:black;
 }
 
 nav:nth-child(1) {
@@ -30,6 +31,7 @@ nav:nth-child(1) {
     padding-top: 12px;
     padding-left: 20px;
     color: white;
+	background-color:black;
     font-size: 1.3em;
     float: left;
 }
@@ -39,22 +41,21 @@ nav:nth-child(1) {
     text-decoration: none;
     padding: 5px;
     border-radius: 4px;
-    background-color: #003366;
+	background-color:black;
     transition: background-color 0.4s ease;
 }
 
 .navlink a:hover {
     transition: background-color 0.8s ease;
-    background-color: #696969;
+    background-color: #006900;
 }
 
 .moneyForm {
-    border: 2px solid #338acc;
     height: 35px;
     width: 700px;
     margin-top:0px;
     padding-top:10px;
-    background-color: #55acee;
+    background-color: white;
     border-bottom-right-radius: 4px;
     border-top-right-radius: 4px;
 }
@@ -73,10 +74,12 @@ nav:nth-child(1) {
 }
 #content{
 	display:inline;
+	max-width:50%;
+	margin-top:0;
 }
 
 #ad1, #ad2 {
-	max-width:20%;
+	max-width:25%;
 	padding-top:30px;
 }
 #ad1 {
@@ -90,7 +93,7 @@ nav:nth-child(1) {
     height: 300px;
     width: 380px;
     margin: 0 auto;
-    padding-top: 350px;
+    padding-top: 100px;
     font-size: 1.2em;
 }
 
@@ -114,30 +117,29 @@ nav:nth-child(1) {
     margin-top: 14px;
     font-size: 1.2em;
     width: 100px;
-    background-color: #003366;
+    background-color: black;
     border-radius: 2px;
-    border-color: #003366;
+    border-color: #00ff00;
     padding: 3px 0px;
     color: white;
     text-decoration: none;
 }
 
-.formSubmit:link, .formSubmit:visited, .formSubmit:hover, .formSubmit:active {
-    color: white;
+.formSubmit:hover{
+	transition: background-color 0.4s ease;
+	background-color:#228B22
 }
-
-.formSubmit:hover {
-    transition: background-color 0.4s ease;
-    background-color: #003366;
-}
-
 #user, #pass, #pass2 {
     text-align: center;
     font-size: 1.1em;
     width: 180px;
     border-radius: 6px;
+	margin-bottom:5px;
 }
-
+#title {
+	text-align:center;
+	font-size: 50px;
+}
 #user:focus, #pass:focus, #pass2:focus {
     outline: none;
     box-shadow: 0px 0px 1px 1px #55acee;
@@ -184,16 +186,21 @@ nav:nth-child(1) {
     -webkit-transform: rotate(330deg); 
     transform: rotate(330deg);
 }
+#moneyLabel {
+	color:white;
+	padding-left:10px;
+	font-size:15px;
+}
 
 #moneys {
     width: 40%;
     min-width: 400px;
-    border: 2px solid #003390;
+    border: 2px solid #00FF00;
     border-radius: 4px;
     margin: 0 auto;
-    margin-top: 100px;
-	color:white;
-	background-color:#696969;
+    margin-top: 40px;
+	color:#cccccc;
+	background-color:black;
 	padding-left:20px;
 }
 
@@ -202,20 +209,15 @@ nav:nth-child(1) {
     margin: 0 auto;
     margin-top: 2px;
     margin-bottom: 2px;
-    border: 2px solid #003390;
     border-radius: 4px;
-    background-color: #003390;
+    background-color: black;
     padding: 10px;
     min-height:60px;
     overflow: hidden;
+	padding-left:0px;
+	margin-left:0px;
 }
 
-.money:hover {
-    transition: border-color 0.2s ease-out;
-    border-color: rgba(255,255,255, 0.8);
-    transition: background-color 2.6s ease-out;
-    background-color: #66bfff;
-}
 
 img.domoFace {
     margin-left: 25px;
@@ -227,31 +229,6 @@ img.domoFace {
     float:left;
 }
 
-h3.emptyDomo {
-    width: 400px;
-    font-size: 1.5em;
-    margin: 0 auto;
-    text-align: center;
-    margin-top: 18px;
-}
-
-h3.domoName {
-    float:left;
-    width: 200px;
-    font-weight: bold;
-    padding-left: 65px;
-    font-size: 1.5em;
-}
-
-h3.domoAge {
-    float:right;
-    text-align: left;
-    width: 100px;
-    font-weight: bold;
-    padding-right: 40px;
-    font-size: 1.5em;
-}
-
 .money:first-child {
     margin-top: 10px;
 }
@@ -261,9 +238,38 @@ h3.domoAge {
 }
 
 .bg {
-	background-color: #04AF71;
+	background-color: #228B22;
 }
 
 .upgradeWrap { 
 	padding-top:25px;
+}
+
+#inputMoney {
+	background-color: black;
+	color:white;
+	box-shadow:none;
+	border:0;
+	font-size:15px;
+}
+
+#signupForm, #loginForm {
+	color:#00ff00;
+}
+
+.makeMoneySubmit {
+	float:left;
+	margin-right:15px;
+	color:white;
+	background-color: black;
+	border-color: #00ff00;
+	display:inline-block;
+	transition: background-color 0.3s ease;
+	width:52px;
+	font-size:15px;
+}
+
+.makeMoneySubmit:hover {
+	transition: background-color 0.3s ease;
+	background-color: #005000;
 }

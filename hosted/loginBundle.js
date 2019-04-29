@@ -46,6 +46,11 @@ var LoginWindow = function LoginWindow(props) {
 			className: "mainForm"
 		},
 		React.createElement(
+			"h3",
+			{ id: "title", htmlFor: "hidden" },
+			"Typing Trainer"
+		),
+		React.createElement(
 			"label",
 			{ htmlFor: "username" },
 			"Username: "
@@ -58,7 +63,7 @@ var LoginWindow = function LoginWindow(props) {
 		),
 		React.createElement("input", { id: "pass", type: "password", name: "pass", placeholder: "password" }),
 		React.createElement("input", { type: "hidden", name: "_csrf", value: props.csrf }),
-		React.createElement("input", { className: "formSubmit", type: "submit", value: "Sign Up" })
+		React.createElement("input", { className: "formSubmit", type: "submit", value: "Login" })
 	);
 };
 
@@ -72,6 +77,11 @@ var SignupWindow = function SignupWindow(props) {
 			method: "POST",
 			className: "mainForm"
 		},
+		React.createElement(
+			"h3",
+			{ id: "title" },
+			"Typing Trainer"
+		),
 		React.createElement(
 			"label",
 			{ htmlFor: "username" },

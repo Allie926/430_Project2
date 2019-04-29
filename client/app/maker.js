@@ -21,7 +21,6 @@ let checkTime;
 let wordCount = 20;
 let wordCost = (wordCount*wordCount) - 350;
 
-
 //handles money, name needs to be changed
 const handleMoney = (e) => {
 	e.preventDefault(0);
@@ -42,7 +41,7 @@ const MoneyForm = (props) => {
 		method="POST"
 		className="money"
 	  >
-	  <label htmlFor="money">Money: </label>
+	  <label id="moneyLabel" htmlFor="money">Money: $</label>
 	  <input id="inputMoney" type="text" name="money"/>
 	  <input id="multiplier" type="hidden" name="multiplier"/>
 	  <input id="multCost" type="hidden" name="multCost"/>

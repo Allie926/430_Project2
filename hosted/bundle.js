@@ -39,8 +39,8 @@ var MoneyForm = function MoneyForm(props) {
 		},
 		React.createElement(
 			'label',
-			{ htmlFor: 'money' },
-			'Money: '
+			{ id: 'moneyLabel', htmlFor: 'money' },
+			'Money: $'
 		),
 		React.createElement('input', { id: 'inputMoney', type: 'text', name: 'money' }),
 		React.createElement('input', { id: 'multiplier', type: 'hidden', name: 'multiplier' }),
