@@ -1,6 +1,6 @@
 'use strict';
 
-var list = ['GOD', 'DOG', 'BOTTLE', 'PSYCHOTIC', 'COPPER', 'MONEY', 'CONSULT', 'GUSTY', 'IDIOTIC', 'TREMBLE', 'MURKY', 'CREDIT', 'OUTSTANDING', 'CAUTIOUS', 'SHAPE', 'DEGREE', 'SUBSCRIBE', 'MANIACAL', 'CONTINUE', 'SUPPLY'];
+var list = ['CONJUGATIONS', 'EXTRAVAGANZA', 'ENTAGLEMENT', 'JOURNALIZING', 'CIRCUMJACENT', 'EXTRAPOLATE', 'OUTSTANDING', 'DESTRUCTION', 'ACCOMMODATE', 'RAZZAMATAZZ', 'JABBERWOCKY', 'DRIZZLINGLY', 'COMMUNIZING', 'ZYGOMORPHIC', 'CHOCKABLOCK', 'EPOXIDIZING', 'FUTURISTIC', 'ARITHMETIC', 'PUNISHMENT', 'CONSCIENCE', 'BEMUZZLING', 'ZIGZAGGING', 'DAZZLINGLY', 'PSYCHOTIC', 'BUZZWORDS', 'SUBSCRIBE', 'BEAUTIFUL', 'TREATMENT', 'QUIZZICAL', 'PLAYWRIGHT', 'HUZZAHING', 'SCHNOZZLE', 'CAUTIOUS', 'MANIACAL', 'CONTINUE', 'EMBEZZLE', 'ZYZZYVAS', 'FLAPJACK', 'CONSULT', 'IDIOTIC', 'TREMBLE', 'JOURNEY', 'APPLAUD', 'PUNGENT', 'BOTTLE', 'COPPER', 'CREDIT', 'DEGREE', 'SUPPLY', 'REPAIR', 'GOVERN', 'RHYTHM', 'SYZYGY', 'MONEY', 'GUSTY', 'SHAPE', 'MURKY', 'LUCKY', 'SALTY', 'WEAVE', 'CHIN', 'CHAT', 'GOOD', 'YOKE', 'YOLK', 'JINX', 'JAVA', 'GOD', 'DOG', 'LEG', 'BOY', 'BAD', 'SPY', 'EGG', 'GYM'];
 var letters = 0;
 var typed = void 0;
 var cashMoneys = 0; //money variable
@@ -11,6 +11,10 @@ var timeCost = 10 + moneyTime * moneyTime;
 var spans = void 0;
 var words = void 0;
 var money = void 0;
+var nowTime = void 0;
+var checkTime = void 0;
+var wordCount = 20;
+var wordCost = wordCount * wordCount - 350;
 
 //handles money, name needs to be changed
 var handleMoney = function handleMoney(e) {
@@ -43,6 +47,8 @@ var MoneyForm = function MoneyForm(props) {
 		React.createElement('input', { id: 'multCost', type: 'hidden', name: 'multCost' }),
 		React.createElement('input', { id: 'moneyTime', type: 'hidden', name: 'moneyTime' }),
 		React.createElement('input', { id: 'timeCost', type: 'hidden', name: 'timeCost' }),
+		React.createElement('input', { id: 'wordCount', type: 'hidden', name: 'wordCount' }),
+		React.createElement('input', { id: 'wordCost', type: 'hidden', name: 'wordCost' }),
 		React.createElement('input', { type: 'hidden', name: '_csrf', value: props.csrf }),
 		React.createElement('input', { className: 'makeMoneySubmit', type: 'submit', value: 'Save' })
 	);
@@ -50,7 +56,7 @@ var MoneyForm = function MoneyForm(props) {
 //random word choice function
 function random() {
 	words.innerHTML = "";
-	var random = Math.floor(Math.random() * 20);
+	var random = Math.floor(Math.random() * wordCount);
 	var wordArray = list[random].split("");
 	for (var i = 0; i < wordArray.length; i++) {
 		//building the words with spans around the letters
@@ -71,7 +77,7 @@ function typing(e) {
 			document.querySelector("#multiplier").value = multiplier;
 			document.querySelector("#multCost").value = multCost;
 			document.querySelector("#inputMoney").value = cashMoneys;
-			ReactDOM.render(React.createElement(TypeList, { moneys: cashMoneys, multiplier: multiplier, multCost: multCost, moneyTime: moneyTime, timeCost: timeCost }), document.querySelector("#moneys"));
+			ReactDOM.render(React.createElement(TypeList, { moneys: cashMoneys, multiplier: multiplier, multCost: multCost, moneyTime: moneyTime, timeCost: timeCost, wordCount: wordCount, wordCost: wordCost }), document.querySelector("#moneys"));
 		}
 	} else if (String.fromCharCode(e.which) === "2") {
 		if (cashMoneys >= timeCost) {
@@ -81,7 +87,17 @@ function typing(e) {
 			document.querySelector("#moneyTime").value = moneyTime;
 			document.querySelector("#timeCost").value = timeCost;
 			document.querySelector("#inputMoney").value = cashMoneys;
-			ReactDOM.render(React.createElement(TypeList, { moneys: cashMoneys, multiplier: multiplier, multCost: multCost, moneyTime: moneyTime, timeCost: timeCost }), document.querySelector("#moneys"));
+			ReactDOM.render(React.createElement(TypeList, { moneys: cashMoneys, multiplier: multiplier, multCost: multCost, moneyTime: moneyTime, timeCost: timeCost, wordCount: wordCount, wordCost: wordCost }), document.querySelector("#moneys"));
+		}
+	} else if (String.fromCharCode(e.which) === "3") {
+		if (cashMoneys >= wordCost && wordCount < 75) {
+			wordCount += 5;
+			cashMoneys -= wordCost;
+			wordCost = wordCount * wordCount - 350;
+			document.querySelector("#wordCount").value = wordCount;
+			document.querySelector("#wordCost").value = wordCost;
+			document.querySelector("#inputMoney").value = cashMoneys;
+			ReactDOM.render(React.createElement(TypeList, { moneys: cashMoneys, multiplier: multiplier, multCost: multCost, moneyTime: moneyTime, timeCost: timeCost, wordCount: wordCount, wordCost: wordCost }), document.querySelector("#moneys"));
 		}
 	} else {
 		if (!spans) {
@@ -126,7 +142,7 @@ function typing(e) {
 //the html elements to fill in the middle of the screen
 var TypeList = function TypeList(props) {
 	//if brand new
-	if (!props.moneys) {
+	if (!props.moneys && wordCount < 75) {
 		return React.createElement(
 			'div',
 			{ className: 'moneyList' },
@@ -174,61 +190,195 @@ var TypeList = function TypeList(props) {
 					' / 5 seconds -> $',
 					moneyTime + 1,
 					' / 5 seconds'
+				),
+				React.createElement(
+					'h5',
+					{ id: 'upgrade3' },
+					'($',
+					wordCost,
+					') 3. More words: ',
+					wordCount,
+					' -> ',
+					wordCount + 5
+				)
+			)
+		);
+	} else if (!props.moneys && wordCount >= 75) {
+		return React.createElement(
+			'div',
+			{ className: 'moneyList' },
+			React.createElement('div', { className: 'moneyWrap' }),
+			React.createElement(
+				'div',
+				{ className: 'wordsWrap' },
+				React.createElement(
+					'h2',
+					{ className: 'words' },
+					'Press any button to start'
+				)
+			),
+			React.createElement(
+				'div',
+				{ className: 'upgradeWrap' },
+				React.createElement(
+					'h3',
+					null,
+					'Upgrades'
+				),
+				React.createElement(
+					'h4',
+					null,
+					'Press the corresponding number to upgrade the ability'
+				),
+				React.createElement(
+					'h5',
+					{ id: 'upgrade1' },
+					'($',
+					multCost,
+					') 1. Multiplier: ',
+					multiplier,
+					'x -> ',
+					multiplier + 1,
+					'x'
+				),
+				React.createElement(
+					'h5',
+					{ id: 'upgrade2' },
+					'($',
+					timeCost,
+					') 2. Money over time: $',
+					moneyTime,
+					' / 5 seconds -> $',
+					moneyTime + 1,
+					' / 5 seconds'
+				),
+				React.createElement(
+					'h5',
+					{ id: 'upgrade3' },
+					'(MAX) 3. More words: ',
+					wordCount
+				)
+			)
+		);
+	} else if (wordCount >= 75) {
+		return React.createElement(
+			'div',
+			{ className: 'moneyList' },
+			React.createElement('div', { className: 'moneyWrap' }),
+			React.createElement(
+				'div',
+				{ className: 'wordsWrap' },
+				React.createElement(
+					'h2',
+					{ className: 'words' },
+					'Press any button to start'
+				)
+			),
+			React.createElement(
+				'div',
+				{ className: 'upgradeWrap' },
+				React.createElement(
+					'h3',
+					null,
+					'Upgrades'
+				),
+				React.createElement(
+					'h4',
+					null,
+					'Press the corresponding number to upgrade the ability'
+				),
+				React.createElement(
+					'h5',
+					{ id: 'upgrade1' },
+					'($',
+					multCost,
+					') 1. Multiplier: ',
+					multiplier,
+					'x -> ',
+					multiplier + 1,
+					'x'
+				),
+				React.createElement(
+					'h5',
+					{ id: 'upgrade2' },
+					'($',
+					timeCost,
+					') 2. Money over time: $',
+					moneyTime,
+					' / 5 seconds -> $',
+					moneyTime + 1,
+					' / 5 seconds'
+				),
+				React.createElement(
+					'h5',
+					{ id: 'upgrade3' },
+					'(MAX) 3. More words: ',
+					wordCount
+				)
+			)
+		);
+	} else {
+		return React.createElement(
+			'div',
+			{ className: 'moneyList' },
+			React.createElement('div', { className: 'moneyWrap' }),
+			React.createElement(
+				'div',
+				{ className: 'wordsWrap' },
+				React.createElement(
+					'h2',
+					{ className: 'words' },
+					'Press any button to start'
+				)
+			),
+			React.createElement(
+				'div',
+				{ className: 'upgradeWrap' },
+				React.createElement(
+					'h3',
+					null,
+					'Upgrades'
+				),
+				React.createElement(
+					'h4',
+					null,
+					'Press the corresponding number to upgrade the ability'
+				),
+				React.createElement(
+					'h5',
+					{ id: 'upgrade1' },
+					'($',
+					props.multCost,
+					') 1. Multiplier: ',
+					props.multiplier,
+					'x -> ',
+					props.multiplier + 1,
+					'x'
+				),
+				React.createElement(
+					'h5',
+					{ id: 'upgrade2' },
+					'($',
+					props.timeCost,
+					') 2. Money over time: $',
+					props.moneyTime,
+					' / 5 seconds -> $',
+					props.moneyTime + 1,
+					' / 5 seconds'
+				),
+				React.createElement(
+					'h5',
+					{ id: 'upgrade3' },
+					'($',
+					props.wordCost,
+					') 3. More words: ',
+					props.wordCount,
+					' -> ',
+					props.wordCount + 5
 				)
 			)
 		);
 	}
-	console.log(props);
-	return React.createElement(
-		'div',
-		{ className: 'moneyList' },
-		React.createElement('div', { className: 'moneyWrap' }),
-		React.createElement(
-			'div',
-			{ className: 'wordsWrap' },
-			React.createElement(
-				'h2',
-				{ className: 'words' },
-				'Press any button to start'
-			)
-		),
-		React.createElement(
-			'div',
-			{ className: 'upgradeWrap' },
-			React.createElement(
-				'h3',
-				null,
-				'Upgrades'
-			),
-			React.createElement(
-				'h4',
-				null,
-				'Press the corresponding number to upgrade this ability'
-			),
-			React.createElement(
-				'h5',
-				{ id: 'upgrade1' },
-				'($',
-				multCost,
-				') 1. Multiplier: ',
-				props.multiplier,
-				'x -> ',
-				props.multiplier + 1,
-				'x'
-			),
-			React.createElement(
-				'h5',
-				{ id: 'upgrade2' },
-				'($',
-				props.timeCost,
-				') 2. Money over time: $',
-				props.moneyTime,
-				' / 5 seconds -> $',
-				props.moneyTime + 1,
-				' / 5 seconds'
-			)
-		)
-	);
 };
 
 //loads the server variables
@@ -242,17 +392,25 @@ var loadMoneysFromServer = function loadMoneysFromServer() {
 			multCost = data.moneys[data.moneys.length - 1].multCost;
 			moneyTime = data.moneys[data.moneys.length - 1].moneyTime;
 			timeCost = data.moneys[data.moneys.length - 1].timeCost;
-			ReactDOM.render(React.createElement(TypeList, { moneys: cashMoneys, multiplier: multiplier, multCost: multCost, moneyTime: moneyTime, timeCost: timeCost }), document.querySelector("#moneys"));
+			wordCount = data.moneys[data.moneys.length - 1].wordCount;
+			wordCost = data.moneys[data.moneys.length - 1].wordCost;
+			ReactDOM.render(React.createElement(TypeList, { moneys: cashMoneys, multiplier: multiplier, multCost: multCost, moneyTime: moneyTime, timeCost: timeCost, wordCount: wordCount, wordCost: wordCost }), document.querySelector("#moneys"));
 		}
 		document.querySelector("#multiplier").value = multiplier;
 		document.querySelector("#multCost").value = multCost;
 		document.querySelector("#moneyTime").value = moneyTime;
 		document.querySelector("#timeCost").value = timeCost;
 		document.querySelector("#inputMoney").value = cashMoneys;
+		document.querySelector("#wordCount").value = wordCount;
+		document.querySelector("#wordCost").value = wordCost;
 	});
 };
 //setups the page, calls React
 var setup = function setup(csrf) {
+	setInterval(function () {
+		cashMoneys += moneyTime;
+		document.querySelector("#inputMoney").value = cashMoneys;
+	}, 5000);
 	ReactDOM.render(React.createElement(MoneyForm, { csrf: csrf }), document.querySelector("#makeMoney"));
 	ReactDOM.render(React.createElement(TypeList, { moneys: 0 }), document.querySelector("#moneys"));
 

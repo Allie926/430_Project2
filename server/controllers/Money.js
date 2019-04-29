@@ -20,6 +20,8 @@ const makeMoney = (req, res) => {
 	multCost: req.body.multCost,
 	moneyTime: req.body.moneyTime,
 	timeCost: req.body.timeCost,
+	wordCount: req.body.wordCount,
+	wordCost: req.body.wordCost,
     owner: req.session.account._id,
   };
 

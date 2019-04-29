@@ -38,6 +38,18 @@ const MoneySchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
+  
+  wordCount: {
+	type: Number,
+	required: true,
+	trim: true,
+  },
+  
+  wordCost: {
+	type: Number,
+	required: true,
+	trim: true,
+  },
 
   owner: {
     type: mongoose.Schema.ObjectId,
@@ -57,13 +69,15 @@ MoneySchema.statics.toAPI = (doc) => ({
   multCost: doc.multCost,
   moneyTime: doc.moneyTime,
   timeCost: doc.timeCost,
+  wordCount: doc.wordCount,
+  wordCost: doc.wordCost,
 });
 
 MoneySchema.statics.findByOwner = (ownerId, callback) => {
   const search = {
     owner: convertId(ownerId),
   };
-  return MoneyModel.find(search).select('money multiplier multCost moneyTime timeCost').exec(callback);
+  return MoneyModel.find(search).select('money multiplier multCost moneyTime timeCost wordCount wordCost').exec(callback);
 };
 
 MoneyModel = mongoose.model('Money', MoneySchema);
