@@ -5,7 +5,7 @@ const Money = models.Money;
 const makerPage = (req, res) => {
   Money.MoneyModel.findByOwner(req.session.account._id, (err, docs) => {
     if (err) {
-      console.log(err);
+      //console.log(err);
       return res.status(400).json({ error: 'An error occurred' });
     }
 
@@ -32,7 +32,7 @@ const makeMoney = (req, res) => {
   moneyPromise.then(() => res.json({ redirect: '/maker' }));
 
   moneyPromise.catch((err) => {
-    console.log(err);
+    //console.log(err);
     if (err.code === 11000) {
       return res.status(400).json({ error: 'Money already exists.' });
     }
@@ -49,7 +49,7 @@ const getMoneys = (request, response) => {
 
   return Money.MoneyModel.findByOwner(req.session.account._id, (err, docs) => {
     if (err) {
-      console.log(err);
+      //console.log(err);
       return res.status(400).json({ error: 'An error occurred' });
     }
     return res.json({ moneys: docs });
